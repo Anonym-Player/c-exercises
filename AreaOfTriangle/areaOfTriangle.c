@@ -9,7 +9,11 @@ struct Point{
 	float xCoord, yCoord, zCoord;
 };
 
-Point readPoint(float x, float y, float z){
+void printPoint(struct Point aPoint){
+	printf("P(%f | %f | %f)\n", aPoint.xCoord, aPoint.yCoord, aPoint.zCoord);
+}
+
+struct Point readPoint(float x, float y, float z){
 	struct Point aPoint;
 	aPoint.xCoord = x;
 	aPoint.yCoord = y;
@@ -17,40 +21,45 @@ Point readPoint(float x, float y, float z){
 	return aPoint;
 }
 
-Point readCoordinate(){
+struct Point readCoordinate(){
 	float x, y, z;
-	printf("X Coordinate: ");
+	printf("\nX Coordinate: ");
 	scanf(" %f", &x);
-	printf("\nY Coordinate: ");
+	printf("Y Coordinate: ");
 	scanf(" %f", &y);
-	printf("\nZ Coordinate: ");
+	printf("Z Coordinate: ");
 	scanf(" %f", &z);
-	Point aPoint = readPoint(x, y, z);
+	struct Point aPoint = readPoint(x, y, z);
+	printPoint(aPoint);
 	return aPoint;
 }
 
-float distance(Point aPoint, Point bPoint){
-	return sqrtf(powf(aPoint.xCoord - bPoint.xCoord) + powf(aPoint.yCoord - bPoint.yCoord) + powf(aPoint.zCoord - bPoint.zCoord));
+float distance(struct Point aPoint, struct Point bPoint){
+	return sqrtf(powf(aPoint.xCoord - bPoint.xCoord, 2) + powf(aPoint.yCoord - bPoint.yCoord, 2) + powf(aPoint.zCoord - bPoint.zCoord, 2));
 }
 
-float area(Point aPoint, Point bPoint, Point cPoint){
-	return 0.0;
+float area(struct Point aPoint, struct Point bPoint, struct Point cPoint){
+	float a = distance(aPoint, bPoint);
+	float b = distance(aPoint, cPoint);
+	float c = distance(bPoint, cPoint);
+	float s = (a + b + c) / 2;
+	return sqrtf(s * (s - a) * (s - b) * (s - c));
 }
 
 void run(){
 	char input;
-	printf("Calculate distance (d), area (a) or quit (q)? ");
+	printf("\nCalculate distance (d), area (a) or quit (q)? ");
 	scanf(" %c", &input);
 	switch(input){
 		case 'd':
 			// Code
-			Point aPoint = readCoordinate();
-			Point bPoint = readCoordinate();
-			printf("Distance: %f", distance(aPoint, bPoint));
+			printf("\nDistance: %f\n", distance(readCoordinate(), readCoordinate()));
 			run();
 			break;
 		case 'a':
 			// Code
+			printf("\nArea: %f\n", area(readCoordinate(), readCoordinate(), readCoordinate()));
+			run();
 			break;
 		case 'q':
 			// Code
